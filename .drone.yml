@@ -1,0 +1,28 @@
+kind: pipeline
+type: docker
+name: default
+
+steps:
+  - name: source
+    image: debian:buster-slim
+    commands:
+      - apt-get update
+      - apt-get install -y curl git jq
+      - LATEST=$(curl -s https://api.github.com/repos/tidusjar/Ombi/releases/latest | jq -r ".tag_name")
+      - if curl -sfL https://hub.docker.com/v2/repositories/ezkrg/ombi/tags/$LATEST > /dev/null; then echo "tag $LATEST already exist"; exit 78; fi
+      - curl -sL --output ombi.tar.gz https://github.com/tidusjar/Ombi/releases/download/$LATEST/linux.tar.gz
+      - echo -n "$LATEST,latest" > .tags
+
+  - name: release
+    image: plugins/docker
+    settings:
+      username:
+        from_secret: DHU
+      password:
+        from_secret: DHP
+      repo: ezkrg/ombi
+      when:
+        event:
+          - cron
+        cron:
+          - nightly
