@@ -22,13 +22,13 @@ steps:
       password:
         from_secret: DHP
       repo: ezkrg/ombi
-      when:
-        event:
-          - cron
-        cron:
-          - nightly
+    when:
+      event:
+      - cron
+      cron:
+      - nightly
 ---
 kind: signature
-hmac: 5465871885b711f9cb88899317b5d0c4256e1c31ce861d399551bd4153ff98a1
+hmac: c135e140d19522dd1d3ebe0977817c54aa49e5732023221d407076caedfb44b6
 
 ...
