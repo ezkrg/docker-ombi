@@ -9,7 +9,7 @@ steps:
     commands:
       - apt-get update
       - apt-get install -y curl git jq
-      - LATEST=$(curl -s https://api.github.com/repos/tidusjar/Ombi.Releases/releases | jq -r ".[0].tag_name")
+      - LATEST=$(curl -sL https://api.github.com/repos/tidusjar/Ombi.Releases/releases | jq -r ".[0].tag_name")
       - if curl -sfL https://hub.docker.com/v2/repositories/ezkrg/ombi/tags/$LATEST > /dev/null; then echo "tag $LATEST already exist"; exit 78; fi
       - curl -sL --output ombi.tar.gz https://github.com/tidusjar/Ombi.Releases/releases/download/$LATEST/linux-x64.tar.gz
       - echo -n "$LATEST,test" > .tags
@@ -29,6 +29,6 @@ steps:
       - nightly
 ---
 kind: signature
-hmac: 069f52271e6e4b1af2bd85c316fc3b425d7fcfd7605a3d8aa64650fc2f49ba86
+hmac: f57cf08b7775ba3e15b86d4cf09977639c76e16cad80cfaeb0683bc106dd8216
 
 ...
